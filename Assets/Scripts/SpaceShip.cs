@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class SpaceShip : MonoBehaviour
 {
+    [SerializeField] private float _speed;
+    [SerializeField] private float _speedRotation;
     [SerializeField] private SpaceObject _bullet;
+    [SerializeField] private float _bulletSpeed;
     [SerializeField] private int _bulletsInMinute=3;
     [SerializeField] Transform _shotPoint;
     private Pool _bulletsPool;
@@ -14,7 +17,7 @@ public class SpaceShip : MonoBehaviour
     private void Awake()
     {
         _timeToShot = 1 / _bulletsInMinute;
-        _bulletsPool = new Pool(_bullet);
+        _bulletsPool = new Pool(_bullet, _bulletSpeed);
     }
 
     private void Start()

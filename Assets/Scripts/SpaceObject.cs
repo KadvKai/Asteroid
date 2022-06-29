@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class SpaceObject : MonoBehaviour
 {
-    [SerializeField] protected float _speed;
+    protected float _speed;
     private float _fieldHeight;
     protected float _fieldWidth;
     public event UnityAction<SpaceObject> Destruction;
@@ -34,11 +34,13 @@ public class SpaceObject : MonoBehaviour
     {
         DestroySpaceObject();
     }
-    protected void DestroySpaceObject()
+    virtual protected void DestroySpaceObject()
     { 
-        //gameObject.SetActive (false);
         Destruction?.Invoke(this);
     }
-
+    public void SetSpeed(float speed)
+    {
+        _speed = speed;
+    }
     
 }
