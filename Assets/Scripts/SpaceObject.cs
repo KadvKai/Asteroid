@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class SpaceObject : MonoBehaviour
 {
+    protected AudioSource _audio;
     protected float _speed;
     private float _fieldHeight;
     protected float _fieldWidth;
@@ -12,6 +13,7 @@ public class SpaceObject : MonoBehaviour
 
     private void Awake()
     {
+        _audio = GetComponent<AudioSource>();
         var camera = Camera.main;
         _fieldHeight = camera.orthographicSize * 2;
         _fieldWidth = _fieldHeight * camera.aspect;
@@ -21,7 +23,7 @@ public class SpaceObject : MonoBehaviour
         Move();
     }
 
-    private void Move()
+    protected void Move()
     {
         var positionX = transform.position.x + _speed * Time.deltaTime * transform.right.x;
         positionX = Mathf.Repeat(positionX, _fieldWidth);

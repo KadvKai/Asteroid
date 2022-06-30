@@ -15,6 +15,7 @@ public class Asteroid : SpaceObject
     private void DestroyAsteroid(bool earnScore)
     {
         base.DestroySpaceObject();
+        _audio.Play();
         DestructionAsteroid?.Invoke(this, earnScore);
     }
 }

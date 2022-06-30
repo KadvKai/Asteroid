@@ -6,6 +6,7 @@ public class Bullet : SpaceObject
 {
     private void OnEnable()
     {
+        _audio.Play();
         Invoke(nameof(DestroySpaceObject), _fieldWidth/ _speed);
     }
 }
