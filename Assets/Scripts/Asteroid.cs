@@ -5,13 +5,16 @@ using UnityEngine.Events;
 
 public class Asteroid : SpaceObject
 {
-    public enum AsteroidType { BigAsteroid , MediumAsteroid, SmallAsteroid }
-    [SerializeField] private AsteroidType _asteroidType;
-    public event UnityAction<Asteroid, AsteroidType> DestructionAsteroid;
-    override protected void DestroySpaceObject() 
+    public event UnityAction<Asteroid, bool> DestructionAsteroid;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Bullet>()) DestroyAsteroid(true);
+        else DestroyAsteroid(false);
+    }
+    private void DestroyAsteroid(bool earnScore)
     {
         base.DestroySpaceObject();
-        DestructionAsteroid?.Invoke(this, _asteroidType);
-        Debug.Log("Asteroid Destroy");
+        DestructionAsteroid?.Invoke(this, earnScore);
     }
 }

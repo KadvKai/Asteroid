@@ -32,7 +32,6 @@ public class Pool
 
     private void SpaceObjectDestruction(SpaceObject spaceObject)
     {
-        Debug.Log("Pool");
         spaceObject.Destruction -= SpaceObjectDestruction;
         spaceObject.gameObject.SetActive(false);
         _spaceObjects.Push(spaceObject);

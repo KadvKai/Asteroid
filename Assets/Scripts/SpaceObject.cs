@@ -34,7 +34,7 @@ public class SpaceObject : MonoBehaviour
     {
         DestroySpaceObject();
     }
-    virtual protected void DestroySpaceObject()
+    protected void DestroySpaceObject()
     { 
         Destruction?.Invoke(this);
     }

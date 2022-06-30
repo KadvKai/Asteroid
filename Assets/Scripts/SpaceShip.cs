@@ -6,13 +6,14 @@ public class SpaceShip : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _speedRotation;
-    [SerializeField] private SpaceObject _bullet;
+    [SerializeField] private Bullet _bullet;
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private int _bulletsInMinute=3;
     [SerializeField] Transform _shotPoint;
     private Pool _bulletsPool;
     private float _timeToShot;
     private float _currentTimeToShot;
+    public float Speed => _speed;
 
     private void Awake()
     {
