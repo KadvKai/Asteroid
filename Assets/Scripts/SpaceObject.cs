@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpaceObject : MonoBehaviour
+public abstract class SpaceObject : MonoBehaviour
 {
-    protected AudioSource _audio;
     protected float _speed;
     private float _fieldHeight;
     protected float _fieldWidth;
@@ -13,7 +12,6 @@ public class SpaceObject : MonoBehaviour
 
     private void Awake()
     {
-        _audio = GetComponent<AudioSource>();
         var camera = Camera.main;
         _fieldHeight = camera.orthographicSize * 2;
         _fieldWidth = _fieldHeight * camera.aspect;

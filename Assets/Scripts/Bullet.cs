@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Bullet : SpaceObject
 {
+    [SerializeField] private AudioClip _fireSound;
+
     private void OnEnable()
     {
-        _audio.Play();
+        AudioSource.PlayClipAtPoint(_fireSound,transform.position);
         Invoke(nameof(DestroySpaceObject), _fieldWidth/ _speed);
     }
 }
