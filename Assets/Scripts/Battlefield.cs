@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,6 +15,7 @@ public class Battlefield : MonoBehaviour
     [SerializeField] private SpaceObject _smallAsteroid;
     [SerializeField] private int _smallAsteroidScore;
     [SerializeField] private TMP_Text _scoreIndicator;
+    private bool _gameOver;
     private Pool _largeAsteroidPool;
     private Pool _mediumAsteroidPool;
     private Pool _smallAsteroidPool;
@@ -25,35 +25,54 @@ public class Battlefield : MonoBehaviour
     private readonly List<Asteroid> _largeAsteroids = new List<Asteroid>();
     private readonly List<Asteroid> _mediumAsteroids = new List<Asteroid>();
     private readonly List<Asteroid> _smallAsteroids = new List<Asteroid>();
-    private int _quantityLargeAsteroid = 2;
+    private int _quantityLargeAsteroid;
     private int _score;
 
     private void Awake()
     {
-        _flyingSaucer.gameObject.SetActive(false);
-        _flyingSaucer.DestructionFlyingSaucer += DestructionFlyingSaucer;
         _largeAsteroidPool = new Pool(_largeAsteroid);
         _mediumAsteroidPool = new Pool(_mediumAsteroid);
         _smallAsteroidPool = new Pool(_smallAsteroid);
-    }
-
-
-    private void Start()
-    {
+        _flyingSaucer.DestructionFlyingSaucer += DestructionFlyingSaucer;
+        FindObjectOfType<Health>().GameOver += GameOver;
         var camera = Camera.main;
         _fieldHeight = camera.orthographicSize * 2;
         _fieldWidth = _fieldHeight * camera.aspect;
+    }
+    private void Start()
+    {
+        _flyingSaucer.gameObject.SetActive(false);
+    }
+    public void NewGame()
+    {
+        if (_asteroids != null)
+        {
+            foreach (var asteroid in _asteroids)
+            {
+                asteroid.DestructionAsteroid -= DestructionAsteroid;
+            }
+        }
+        _flyingSaucer.NewGame();
+        _largeAsteroidPool.HideAll();
+        _mediumAsteroidPool.HideAll();
+        _smallAsteroidPool.HideAll();
+        _asteroids.Clear();
+        _largeAsteroids.Clear();
+        _mediumAsteroids.Clear();
+        _smallAsteroids.Clear();
+        _quantityLargeAsteroid = 2;
         SpawnLargeAsteroid();
         Invoke(nameof(SpawnFlyingSaucer), Random.Range(20f, 40f));
+        _score = 0;
+        _scoreIndicator.text = _score.ToString();
     }
 
     private void SpawnFlyingSaucer()
     {
         _flyingSaucer.gameObject.SetActive(true);
         bool leftPosition;
-        leftPosition = Random.Range(-1, 1f) < 0;
-        _flyingSaucer.transform.localScale = new Vector3(leftPosition ? 1 : -1, 1, 1);
-        _flyingSaucer.transform.position = new Vector2(leftPosition ? 0 : _fieldWidth, Random.Range(_fieldHeight * 0.2f, _fieldHeight * 0.8f));
+        leftPosition = Random.Range(-1f, 1f) < 0;
+        _flyingSaucer.transform.SetPositionAndRotation(new Vector2(leftPosition ? 0 : _fieldWidth, Random.Range(_fieldHeight * 0.2f, _fieldHeight * 0.8f)), Quaternion.Euler(0, leftPosition ? 0 : 180, 0));
     }
     private void DestructionFlyingSaucer(bool earnScore)
     {
@@ -102,6 +121,7 @@ public class Battlefield : MonoBehaviour
             _smallAsteroids.Remove(asteroid);
         }
         _asteroids.Remove(asteroid);
+        asteroid.DestructionAsteroid -= DestructionAsteroid;
         CheckAsteroids();
     }
 
@@ -135,7 +155,14 @@ public class Battlefield : MonoBehaviour
 
     private void ChangeScore(int score)
     {
-        _score += score;
-        _scoreIndicator.text = _score.ToString();
+        if (!_gameOver)
+        {
+            _score += score;
+            _scoreIndicator.text = _score.ToString();
+        }
+    }
+    private void GameOver()
+    {
+        _gameOver = true;
     }
 }

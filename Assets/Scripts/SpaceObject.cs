@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +8,7 @@ public abstract class SpaceObject : MonoBehaviour
     protected float _fieldWidth;
     public event UnityAction<SpaceObject> Destruction;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         var camera = Camera.main;
         _fieldHeight = camera.orthographicSize * 2;
@@ -34,13 +32,12 @@ public abstract class SpaceObject : MonoBehaviour
     {
         DestroySpaceObject();
     }
-    protected void DestroySpaceObject()
-    { 
+    public void DestroySpaceObject()
+    {
         Destruction?.Invoke(this);
     }
     public void SetSpeed(float speed)
     {
         _speed = speed;
     }
-    
 }

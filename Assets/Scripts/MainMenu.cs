@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +15,9 @@ public class MainMenu : MonoBehaviour
     private bool _gameOver;
     private bool _readyToContinue;
     private bool _controlKeyboard;
+    private Player _player;
+    private Health _health;
+    private Battlefield _battlefield;
 
     private void Awake()
     {
@@ -24,24 +25,29 @@ public class MainMenu : MonoBehaviour
         _newGame.onClick.AddListener(NewGame);
         _control.onClick.AddListener(Control);
         _exit.onClick.AddListener(Exit);
-        _controlText = _control.GetComponentInParent<TMP_Text>();
+        _controlText = _control.GetComponentInChildren<TMP_Text>();
+        _player = FindObjectOfType<Player>();
+        _health = _player.GetComponent<Health>();
+        _health.GameOver += GameOver;
+        _battlefield = FindObjectOfType<Battlefield>();
     }
 
-    private void OnEnable()
-    {
-        Time.timeScale = 0;
-        _continue.interactable = _readyToContinue;
-        ControlButtonText();
-    }
     private void Continue()
     {
         Time.timeScale = 1;
+        Cursor.visible = !_controlKeyboard;
+        _player.enabled = true;
+        _player.ÑontrolKeyboard = _controlKeyboard;
         _mainMenu.gameObject.SetActive(false);
     }
 
     private void NewGame()
     {
+        Continue();
         _readyToContinue = true;
+        _player.NewGame();
+        _health.NewGame();
+        _battlefield.NewGame();
     }
 
     private void Control()
@@ -65,7 +71,15 @@ public class MainMenu : MonoBehaviour
     }
     private void ShowMainMenu()
     {
-        if (!_gameOver) _mainMenu.gameObject.SetActive(true);
+        if (!_gameOver)
+        {
+            _mainMenu.gameObject.SetActive(true);
+            Time.timeScale = 0;
+            Cursor.visible = true;
+            _player.enabled = false;
+            _continue.interactable = _readyToContinue;
+            ControlButtonText();
+        }
     }
 
     private void GameOver()

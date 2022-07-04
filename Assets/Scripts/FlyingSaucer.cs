@@ -1,22 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class FlyingSaucer : SpaceObject
 {
     [SerializeField] private Bullet _bullet;
+    [SerializeField] private AudioClip _explosionSound;
     private Player _player;
     private float _currentTimeToShot;
     private Pool _bulletsPool;
     public event UnityAction<bool> DestructionFlyingSaucer;
 
-    private void Start()
+    override protected void Awake()
     {
+        base.Awake();
         _player = FindObjectOfType<Player>();
         _bulletsPool = new Pool(_bullet, _player.Speed);
         _speed = _fieldWidth / 10;
     }
+
+    public void NewGame()
+    {
+        _bulletsPool.HideAll();
+        gameObject.SetActive(false);
+    }
+
     private void OnEnable()
     {
         _currentTimeToShot = Random.Range(2, 5);
@@ -33,9 +40,7 @@ public class FlyingSaucer : SpaceObject
             bullet.transform.position = transform.position;
             bullet.transform.right = _player.transform.position - transform.position;
         }
-
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,5 +50,6 @@ public class FlyingSaucer : SpaceObject
     private void DestroyFlyingSaucer(bool earnScore)
     {
         DestructionFlyingSaucer?.Invoke(earnScore);
+        AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
     }
 }
