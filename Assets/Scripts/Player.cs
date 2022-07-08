@@ -70,8 +70,7 @@ public class Player : MonoBehaviour
 
     private void Rotation(Vector2 direction)
     {
-        var delta = Vector2.SignedAngle(transform.right, direction);
-        var rotAngle = Mathf.Abs(delta) > _speedRotation * Time.deltaTime ? Mathf.Sign(delta) * _speedRotation * Time.deltaTime : delta;
+        var rotAngle = Mathf.MoveTowardsAngle(0, Vector2.SignedAngle(transform.right, direction), _speedRotation * Time.deltaTime);
         transform.Rotate(0, 0, rotAngle);
     }
 

@@ -296,6 +296,8 @@ MonoBehaviour:
   _mediumAsteroidScore: 50
   _smallAsteroid: {fileID: 8608680579574751192, guid: 1c494e5f1f6e7f844b58c15ab9f78693, type: 3}
   _smallAsteroidScore: 100
+  _timeToSpawnLargeAsteroid: 2
+  _angleNewAsteroid: 45
   _scoreIndicator: {fileID: 425963866}
 --- !u!4 &43447532
 Transform:

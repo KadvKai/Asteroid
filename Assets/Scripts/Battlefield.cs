@@ -14,6 +14,8 @@ public class Battlefield : MonoBehaviour
     [SerializeField] private int _mediumAsteroidScore;
     [SerializeField] private SpaceObject _smallAsteroid;
     [SerializeField] private int _smallAsteroidScore;
+    [SerializeField] private float _timeToSpawnLargeAsteroid;
+    [SerializeField] private float _angleNewAsteroid;
     [SerializeField] private TMP_Text _scoreIndicator;
     private bool _gameOver;
     private Pool _largeAsteroidPool;
@@ -141,7 +143,7 @@ public class Battlefield : MonoBehaviour
                 asteroids[i] = _smallAsteroidPool.Spawn() as Asteroid;
                 _smallAsteroids.Add(asteroids[i]);
             }
-            asteroids[i].transform.SetPositionAndRotation(oldAsteroid.transform.position, Quaternion.Euler(0, 0, oldAsteroid.transform.rotation.eulerAngles.z - Mathf.Pow(-1, i) * 45));
+            asteroids[i].transform.SetPositionAndRotation(oldAsteroid.transform.position, Quaternion.Euler(0, 0, oldAsteroid.transform.rotation.eulerAngles.z - Mathf.Pow(-1, i) * _angleNewAsteroid));
             asteroids[i].SetSpeed(sped);
             _asteroids.Add(asteroids[i]);
             asteroids[i].DestructionAsteroid += DestructionAsteroid;
@@ -150,7 +152,7 @@ public class Battlefield : MonoBehaviour
 
     private void CheckAsteroids()
     {
-        if (_asteroids.Count == 0) Invoke(nameof(SpawnLargeAsteroid), 2);
+        if (_asteroids.Count == 0) Invoke(nameof(SpawnLargeAsteroid), _timeToSpawnLargeAsteroid);
     }
 
     private void ChangeScore(int score)
