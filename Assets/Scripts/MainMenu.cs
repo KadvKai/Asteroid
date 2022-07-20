@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1;
         Cursor.visible = !_controlKeyboard;
         _player.enabled = true;
-        _player.ÑontrolKeyboard = _controlKeyboard;
+        _player.ControlKeyboard = _controlKeyboard;
         _mainMenu.gameObject.SetActive(false);
     }
 

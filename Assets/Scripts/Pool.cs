@@ -5,9 +5,9 @@ public class Pool
 {
     private readonly SpaceObject _spaceObject;
     private readonly float _spaceObjectSpeed;
-    private readonly Stack<SpaceObject> _spaceObjects = new Stack<SpaceObject>();
-    private readonly List<SpaceObject> _spaceObjectsOnField = new List<SpaceObject>();
-    private readonly List<SpaceObject> _objects = new List<SpaceObject>();
+    private readonly Stack<SpaceObject> _spaceObjects = new();
+    private readonly List<SpaceObject> _spaceObjectsOnField = new();
+    private readonly List<SpaceObject> _objects = new();
     public Pool(SpaceObject spaceObject)
     {
         _spaceObject = spaceObject;

@@ -17,11 +17,11 @@ public class Player : MonoBehaviour
     private float _fieldHeight;
     protected float _fieldWidth;
     public float Speed => _maxSpeed;
-    public bool ÑontrolKeyboard;
+    public bool ControlKeyboard;
 
     private void Awake()
     {
-        _timeToShot = 1 / _bulletsInMinute;
+        _timeToShot = 1f / _bulletsInMinute;
         _bulletsPool = new Pool(_bullet, _bulletSpeed);
         _camera = Camera.main;
         _fieldHeight = _camera.orthographicSize * 2;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     }
     private void InputController()
     {
-        if (ÑontrolKeyboard)
+        if (ControlKeyboard)
         {
             if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow)) Rotation(transform.up);
             if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftArrow)) Rotation(-transform.up);

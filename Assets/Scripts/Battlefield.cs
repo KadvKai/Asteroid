@@ -6,6 +6,8 @@ public class Battlefield : MonoBehaviour
 {
     [SerializeField] private FlyingSaucer _flyingSaucer;
     [SerializeField] private int _flyingSaucerScore;
+    [SerializeField] private float _minTimeToSpawnFlyingSaucer;
+    [SerializeField] private float _maxTimeToSpawnFlyingSaucer;
     [SerializeField] private float _minSpeedAsteroid;
     [SerializeField] private float _maxSpeedAsteroid;
     [SerializeField] private Asteroid _largeAsteroid;
@@ -23,10 +25,10 @@ public class Battlefield : MonoBehaviour
     private Pool _smallAsteroidPool;
     private float _fieldHeight;
     private float _fieldWidth;
-    private readonly List<Asteroid> _asteroids = new List<Asteroid>();
-    private readonly List<Asteroid> _largeAsteroids = new List<Asteroid>();
-    private readonly List<Asteroid> _mediumAsteroids = new List<Asteroid>();
-    private readonly List<Asteroid> _smallAsteroids = new List<Asteroid>();
+    private readonly List<Asteroid> _asteroids = new();
+    private readonly List<Asteroid> _largeAsteroids = new();
+    private readonly List<Asteroid> _mediumAsteroids = new();
+    private readonly List<Asteroid> _smallAsteroids = new();
     private int _quantityLargeAsteroid;
     private int _score;
 
@@ -64,7 +66,7 @@ public class Battlefield : MonoBehaviour
         _smallAsteroids.Clear();
         _quantityLargeAsteroid = 2;
         SpawnLargeAsteroid();
-        Invoke(nameof(SpawnFlyingSaucer), Random.Range(20f, 40f));
+        Invoke(nameof(SpawnFlyingSaucer), Random.Range(_minTimeToSpawnFlyingSaucer, _maxTimeToSpawnFlyingSaucer));
         _score = 0;
         _scoreIndicator.text = _score.ToString();
     }
@@ -80,7 +82,7 @@ public class Battlefield : MonoBehaviour
     {
         if (earnScore) ChangeScore(_flyingSaucerScore);
         _flyingSaucer.gameObject.SetActive(false);
-        Invoke(nameof(SpawnFlyingSaucer), Random.Range(20f, 40f));
+        Invoke(nameof(SpawnFlyingSaucer), Random.Range(_minTimeToSpawnFlyingSaucer, _maxTimeToSpawnFlyingSaucer));
     }
 
     private void SpawnLargeAsteroid()
